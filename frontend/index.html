@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Handwritten Character Recognition System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="app-header">
+    <div class="header-badge">AI Powered OCR</div>
+    <h1>Handwritten Character Recognition</h1>
+    <p>Upload any handwritten image (white, dark, colored, or paper background) for instant character recognition.</p>
+  </header>
+
+  <main class="app-main">
+
+    <section class="upload-card" id="uploadCard">
+      <div id="dropZone" class="drop-zone">
+        <div class="drop-zone__prompt">
+          <div class="upload-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M12 16V4M12 4l-4 4M12 4l4 4" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <p><strong>Click to upload</strong> or drag & drop handwriting image</p>
+          <span>Supports PNG & JPG images with any background color</span>
+        </div>
+        
+        <div id="imageWrapper" class="image-wrapper" hidden>
+          <img id="previewImg" class="preview-img" alt="Uploaded handwriting" />
+          <canvas id="overlayCanvas" class="overlay-canvas"></canvas>
+        </div>
+      </div>
+      
+      <input type="file" id="fileInput" accept="image/png, image/jpeg" hidden />
+
+      <div class="button-group">
+        <button id="recognizeBtn" class="btn btn-primary" disabled>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Recognize Text
+        </button>
+        <button id="resetBtn" class="btn btn-secondary" hidden>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Try Another Image
+        </button>
+      </div>
+    </section>
+
+    <section class="results-card" id="resultsCard" hidden>
+      <div class="results-header">
+        <h2>Recognition Results</h2>
+        <button id="copyBtn" class="btn btn-sm btn-outline" hidden>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Copy Text
+        </button>
+      </div>
+
+      <div id="loadingState" class="loading" hidden>
+        <div class="spinner"></div>
+        <span>Processing image and segmenting characters...</span>
+      </div>
+
+      <div id="resultsContent" hidden>
+        <div class="recognized-box">
+          <label class="section-label">Recognized Text Output</label>
+          <pre id="recognizedText" class="recognized-text"></pre>
+        </div>
+
+        <div class="confidence-container">
+          <div class="confidence-header">
+            <span>Overall Confidence</span>
+            <strong id="confidenceText">0%</strong>
+          </div>
+          <div class="progress-bar">
+            <div id="confidenceFill" class="progress-fill" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <div class="characters-breakdown">
+          <label class="section-label">Detected Text Lines</label>
+          <div id="lineGrid" class="character-grid"></div>
+        </div>
+      </div>
+
+      <p id="errorText" class="error-text" hidden></p>
+    </section>
+
+  </main>
+
+  <footer class="app-footer">
+    <p>Handwritten Character Recognition System &bull; Universal Background Processing Enabled</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
